@@ -43,7 +43,7 @@ jobs:
       - name: Display Test Results
         if: always()
         run: |
-          if (Test-Path "target\test-output\") { type target\test-output\*.txt }
+          if (Test-Path "target\test-output\") { type target\test-output\abc.txt }
           else { echo "No test reports found!" }
 
       - name: Upload Test Reports
