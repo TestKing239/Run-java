@@ -2,7 +2,7 @@ name: Run Selenium Java Tests
 
 on:
   schedule:
-  - cron: '20 19 * * *'  # Runs every day at 00:50 AM IST
+    - cron: '03 21 * * *'  # Runs every day at 2:25 AM IST
   workflow_dispatch:  # Allows manual trigger
 
 jobs:
@@ -37,14 +37,15 @@ jobs:
       - name: Debug Test Reports Location
         run: |
           echo "Checking Test Reports..."
-          if (Test-Path "target\test-output\") { echo "TestNG reports found"; Get-ChildItem "target\test-output\" }
+          if (Test-Path "test-output\") { echo "TestNG reports found"; Get-ChildItem "test-output\" }
           else { echo "No test reports found!" }
 
       - name: Display Test Results
         if: always()
         run: |
-          if (Test-Path "target\test-output\") { type target\test-output\abc.txt }
-          else { echo "No test reports found!" }
+          if (Test-Path "test-output\abc.txt") { type test-output\abc.txt }
+          else { echo "No abc.txt report found!" }
+
 
       - name: Upload Test Reports
         if: always()
@@ -52,5 +53,5 @@ jobs:
         with:
           name: Test-Reports
           path: |
-            target/test-output/
+            test-output/
           if-no-files-found: ignore  # Avoid pipeline failure if reports are missing
