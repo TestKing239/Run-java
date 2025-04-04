@@ -2,7 +2,7 @@ name: Run Selenium Java Tests
 
 on:
   schedule:
-  - cron: '30 20 * * *'  # Runs every day at 00:50 AM IST
+  - cron: '40 20 * * *'  # Runs every day at 00:50 AM IST
   workflow_dispatch:  # Allows manual trigger
 
 jobs:
