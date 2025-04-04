@@ -7,7 +7,7 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest  # Use windows-latest if needed
+    runs-on: windows-latest  # Running on Windows since it's chromedriver-win64
 
     steps:
       - name: Checkout Repository
@@ -19,15 +19,27 @@ jobs:
           distribution: 'temurin'
           java-version: '11'  # Update if needed
 
-      - name: Install Chrome Browser
-        run: |
-          sudo apt update
-          sudo apt install -y google-chrome-stable
+      - name: Install Google Chrome
+        run: choco install googlechrome --ignore-checksum -y
 
-      - name: Set ChromeDriver Executable Permission
+      - name: Set ChromeDriver Path
+        run: echo "${{ github.workspace }}\Driver\Chrome Driver\chromedriver-win64" >> $GITHUB_PATH
+
+      - name: Verify ChromeDriver Version
         run: |
-          chmod +x drivers/chromedriver  # Adjust path if needed
-          sudo mv drivers/chromedriver /usr/local/bin/
+          $chromeDriverPath = "${{ github.workspace }}\Driver\Chrome Driver\chromedriver-win64\chromedriver.exe"
+          & $chromeDriverPath --version
 
       - name: Run Selenium Tests
-        run: mvn test  # Run your test suite
+        run: mvn test  # Runs the test suite
+
+      - name: Display Test Results
+        if: always()  # Always runs even if tests fail
+        run: type target\surefire-reports\*.txt  # Display test results
+
+      - name: Upload Test Report (JUnit or TestNG)
+        if: always()  # Upload reports even if tests fail
+        uses: actions/upload-artifact@v4
+        with:
+          name: Test-Reports
+          path: target/surefire-reports/  # Change if using a different test report path
