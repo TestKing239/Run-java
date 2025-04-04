@@ -1,0 +1,33 @@
+name: Run Selenium Java Tests
+
+on:
+  schedule:
+    - cron: '0 9 * * *'  # Runs every day at 9 AM UTC
+  workflow_dispatch:  # Allows manual trigger
+
+jobs:
+  test:
+    runs-on: ubuntu-latest  # Use windows-latest if needed
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set Up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '11'  # Update if needed
+
+      - name: Install Chrome Browser
+        run: |
+          sudo apt update
+          sudo apt install -y google-chrome-stable
+
+      - name: Set ChromeDriver Executable Permission
+        run: |
+          chmod +x drivers/chromedriver  # Adjust path if needed
+          sudo mv drivers/chromedriver /usr/local/bin/
+
+      - name: Run Selenium Tests
+        run: mvn test  # Run your test suite
