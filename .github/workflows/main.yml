@@ -37,13 +37,13 @@ jobs:
       - name: Debug Test Reports Location
         run: |
           echo "Checking Test Reports..."
-          if (Test-Path "target\test-output\") { echo "TestNG reports found"; Get-ChildItem "target\test-output\" }
+          if (Test-Path "test-output\") { echo "TestNG reports found"; Get-ChildItem "test-output\" }
           else { echo "No test reports found!" }
 
       - name: Display Test Results
         if: always()
         run: |
-          if (Test-Path "target\test-output\") { type target\test-output\abc.txt }
+          if (Test-Path "test-output\") { type test-output\abc.txt }
           else { echo "No test reports found!" }
 
       - name: Upload Test Reports
@@ -52,5 +52,5 @@ jobs:
         with:
           name: Test-Reports
           path: |
-            target/test-output/
+            test-output/
           if-no-files-found: ignore  # Avoid pipeline failure if reports are missing
