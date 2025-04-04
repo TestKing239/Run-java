@@ -43,8 +43,9 @@ jobs:
       - name: Display Test Results
         if: always()
         run: |
-          if (Test-Path "test-output\") { type test-output\abc.txt }
-          else { echo "No test reports found!" }
+          if (Test-Path "test-output\abc.txt") { type test-output\abc.txt }
+          else { echo "No abc.txt report found!" }
+
 
       - name: Upload Test Reports
         if: always()
