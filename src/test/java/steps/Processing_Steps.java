@@ -29,9 +29,9 @@ public class Processing_Steps {
         System.setProperty("webdriver.chrome.driver", "Driver/Chrome Driver/chromedriver-win64/chromedriver.exe");
  
         ChromeOptions options = new ChromeOptions();
-//        options.addArguments("--headless");  // Run in headless mode
-//        options.addArguments("--disable-gpu"); // Disables GPU hardware acceleration
-//        options.addArguments("--window-size=1920,1080"); // Set window size
+        options.addArguments("--headless");  // Run in headless mode
+        options.addArguments("--disable-gpu"); // Disables GPU hardware acceleration
+        options.addArguments("--window-size=1920,1080"); // Set window size
 
         d = new ChromeDriver(options);
         
@@ -80,7 +80,7 @@ public class Processing_Steps {
 
 
            // Click on Save button
-           WebElement saveBtn = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@id='saveBasicDetailsBtn']")));
+           WebElement saveBtn = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("////button[@id='saveBasicDetailsBtn']")));
            saveBtn.click();
 
            System.out.println("Profile updated successfully!");
