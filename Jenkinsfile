@@ -1,22 +1,33 @@
 pipeline {
     agent any
 
+    tools {
+        maven 'Maven_3.9.6' // Make sure this is configured in Jenkins global tools
+        jdk 'Java_17'       // Same for JDK
+    }
+
+    environment {
+        CHROME_DRIVER = 'Driver/Chrome Driver/chromedriver-win64/chromedriver' // or set this for Windows if needed
+    }
+
     stages {
-        stage('Checkout Code') {
+        stage('Checkout') {
             steps {
-                git(
-                    url: 'https://github.com/TestKing239/Run-java.git',
-                    branch: 'main',
-                    credentialsId: '351ca8e3-dd4b-4514-b9d6-e3a6a80cc4c9'
-                )
+                git branch: 'main', url: 'https://github.com/TestKing239/Run-java.git'
             }
         }
 
-        stage('Run Tests') {
+        stage('Run Selenium Tests') {
             steps {
-                bat 'mvn clean test '
+                bat 'mvn clean test -Dheadless=false'  // or true if you prefer
             }
         }
-        
+    }
+
+    post {
+        always {
+            junit '**/target/surefire-reports/*.xml'
+            archiveArtifacts artifacts: '**/screenshots/*.png', allowEmptyArchive: true
+        }
     }
 }
