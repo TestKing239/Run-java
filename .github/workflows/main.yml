@@ -18,6 +18,11 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '11'  # Update if needed
+      - name: Set up Xvfb
+        run: |
+           sudo apt-get install xvfb
+           Xvfb :99 & export DISPLAY=:99
+
 
       - name: Install Google Chrome
         run: choco install googlechrome --ignore-checksum -y
