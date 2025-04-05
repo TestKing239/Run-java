@@ -32,7 +32,8 @@ public class Processing_Steps {
 //        options.addArguments("--headless");  // Run in headless mode
 //        options.addArguments("--disable-gpu"); // Disables GPU hardware acceleration
 //        options.addArguments("--window-size=1920,1080"); // Set window size
-
+       // ChromeOptions options = new ChromeOptions();
+        options.addArguments("--no-sandbox", "--disable-dev-shm-usage");
         d = new ChromeDriver(options);
         
         d.manage().window().maximize();
