@@ -17,21 +17,18 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: '11'
+          java-version: '21.0.1'
 
       - name: Install Google Chrome
         run: |
           sudo apt-get update
           sudo apt-get install -y google-chrome-stable
 
-      - name: Set ChromeDriver
+      - name: Set Executable ChromeDriver from Repo
         run: |
-          CHROME_VERSION=$(google-chrome --version | grep -oP "\d+\.\d+\.\d+\.\d+")
-          echo "Chrome Version: $CHROME_VERSION"
-          wget -q https://storage.googleapis.com/chrome-for-testing-public/$CHROME_VERSION/linux64/chromedriver-linux64.zip
-          unzip chromedriver-linux64.zip
-          sudo mv chromedriver-linux64/chromedriver /usr/local/bin/
-          chmod +x /usr/local/bin/chromedriver
+          chmod +x Driver/chromedriver-linux64
+          sudo mv Driver/chromedriver-linux64 /usr/local/bin/
+          chromedriver --version
 
       - name: Run Maven Tests (Headless)
         run: mvn clean test || true
@@ -44,10 +41,10 @@ jobs:
           path: test-output/
           if-no-files-found: warn
 
-      - name: Upload Screenshots (if any)
+      - name: Upload Screenshots
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: Screenshots
-          path: test-output/screenshot.png
-          if-no-files-found: ignore
+         name: Screenshots
+         path: test-output/screenshot.png
+
