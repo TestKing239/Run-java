@@ -28,12 +28,12 @@ public class Processing_Steps {
       //  System.setProperty("webdriver.chrome.driver", "C:\\vishal\\Automation\\Chrome Driver\\chromedriver-win64\\chromedriver.exe");
         System.setProperty("webdriver.chrome.driver", "Driver/Chrome Driver/chromedriver-win64/chromedriver.exe");
  
-        ChromeOptions options = new ChromeOptions();
-//        options.addArguments("--headless");  // Run in headless mode
-//        options.addArguments("--disable-gpu"); // Disables GPU hardware acceleration
-//        options.addArguments("--window-size=1920,1080"); // Set window size
-       // ChromeOptions options = new ChromeOptions();
-        options.addArguments("--no-sandbox", "--disable-dev-shm-usage");
+       ChromeOptions options = new ChromeOptions();
+options.addArguments("--headless=new", "--no-sandbox", "--disable-dev-shm-usage", "--window-size=1920,1080");
+WebDriver driver = new ChromeDriver(options);
+options.addArguments("user-agent=Mozilla/5.0");
+
+	    
         d = new ChromeDriver(options);
         
         d.manage().window().maximize();
