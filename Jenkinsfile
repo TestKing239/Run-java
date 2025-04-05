@@ -14,7 +14,7 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                bat 'mvn clean test -Dheadless=true'
+                bat 'mvn clean test '
             }
         }
     }
