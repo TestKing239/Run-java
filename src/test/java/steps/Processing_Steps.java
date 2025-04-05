@@ -77,8 +77,10 @@ public class Processing_Steps {
            
            JavascriptExecutor js = (JavascriptExecutor) d;
            js.executeScript("window.scrollBy(0,900);");
-
-
+           
+           WebElement Name_field = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@id='name']")));
+           Name_field.sendKeys("a");
+            
            // Click on Save button
            WebElement saveBtn = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@id='saveBasicDetailsBtn']")));
            saveBtn.click();
@@ -90,26 +92,26 @@ public class Processing_Steps {
     
 
     
-    @When("Search & apply")
-    public void searchApply() {
-    	
-        WebElement Search = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//div[contains(@class,'suggestor-box flex-row')]//input)[1]")));
-        Search.click();
-        Search.sendKeys("software testing, qa, ");
-        
-        
-        Select Exprience = new Select(wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@id='experienceDD']"))));
-        Exprience.selectByVisibleText("3 year");
-        
-        
-        
-        WebElement SearchButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[normalize-space()='Search']")));
-        SearchButton.click();
-        
-    	
-    	
-    	
-    }
+//    @When("Search & apply")
+//    public void searchApply() {
+//    	
+//        WebElement Search = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//div[contains(@class,'suggestor-box flex-row')]//input)[1]")));
+//        Search.click();
+//        Search.sendKeys("software testing, qa, ");
+//        
+//        
+//        Select Exprience = new Select(wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@id='experienceDD']"))));
+//        Exprience.selectByVisibleText("3 year");
+//        
+//        
+//        
+//        WebElement SearchButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[normalize-space()='Search']")));
+//        SearchButton.click();
+//        
+//    	
+//    	
+//    	
+//    }
     
     
     
