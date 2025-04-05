@@ -7,7 +7,7 @@ on:
 
 jobs:
   test:
-    runs-on: windows-latest  # Running on Windows since it's chromedriver-win64
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Repository
@@ -17,46 +17,37 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: '11'  # Update if needed
-      - name: Set up Xvfb
-        run: |
-           sudo apt-get install xvfb
-           Xvfb :99 & export DISPLAY=:99
-
+          java-version: '11'
 
       - name: Install Google Chrome
-        run: choco install googlechrome --ignore-checksum -y
-
-      - name: Set ChromeDriver Path
-        run: echo "${{ github.workspace }}\Driver\Chrome Driver\chromedriver-win64" >> $GITHUB_PATH
-
-      - name: Verify ChromeDriver Version
         run: |
-          $chromeDriverPath = "${{ github.workspace }}\Driver\Chrome Driver\chromedriver-win64\chromedriver.exe"
-          & $chromeDriverPath --version
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
 
-      - name: Run Selenium Tests
-        run: mvn test --fail-never  # Prevents pipeline failure and ensures reports are generated
-
-
-      - name: Debug Test Reports Location
+      - name: Set ChromeDriver
         run: |
-          echo "Checking Test Reports..."
-          if (Test-Path "test-output\") { echo "TestNG reports found"; Get-ChildItem "test-output\" }
-          else { echo "No test reports found!" }
+          CHROME_VERSION=$(google-chrome --version | grep -oP "\d+\.\d+\.\d+\.\d+")
+          echo "Chrome Version: $CHROME_VERSION"
+          wget -q https://storage.googleapis.com/chrome-for-testing-public/$CHROME_VERSION/linux64/chromedriver-linux64.zip
+          unzip chromedriver-linux64.zip
+          sudo mv chromedriver-linux64/chromedriver /usr/local/bin/
+          chmod +x /usr/local/bin/chromedriver
 
-      - name: Display Test Results
-        if: always()
-        run: |
-          if (Test-Path "test-output\abc.txt") { type test-output\abc.txt }
-          else { echo "No abc.txt report found!" }
-
+      - name: Run Maven Tests (Headless)
+        run: mvn clean test || true
 
       - name: Upload Test Reports
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: Test-Reports
-          path: |
-            test-output/
-          if-no-files-found: ignore  # Avoid pipeline failure if reports are missing
+          path: test-output/
+          if-no-files-found: warn
+
+      - name: Upload Screenshots (if any)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Screenshots
+          path: test-output/screenshot.png
+          if-no-files-found: ignore
