@@ -6,14 +6,7 @@ pipeline {
         CHROME_DRIVER = 'Driver/Chrome Driver/chromedriver-win64/chromedriver' // or set this for Windows if needed
     }
     stages {
-       stage('Build') {
-            steps {
-                sh 'mvn clean install'
-            }
-        }
-
-        
-        stage('Checkout') {
+           stage('Checkout') {
             steps {
                 git branch: 'main', url: 'https://github.com/TestKing239/Run-java.git'
             }
