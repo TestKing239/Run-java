@@ -53,6 +53,8 @@ options.addArguments("user-agent=Mozilla/5.0");
         passwordField.sendKeys("Satyam@123");
 
         // Click Login
+	    Assert.assertTrue(driver.findElement(By.xpath("//button[contains(text(),'Login')]")).isDisplayed());
+
         WebElement submitBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[contains(text(),'Login')]")));
         submitBtn.click();
 
