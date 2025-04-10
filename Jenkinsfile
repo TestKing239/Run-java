@@ -1,19 +1,10 @@
 pipeline {
     agent any
 
-    tools {
-        maven 'Maven_3.9.6' // Make sure this is configured in Jenkins global tools
-        jdk 'Java_17'       // Same for JDK
-    }
-
+  
     environment {
         CHROME_DRIVER = 'Driver/Chrome Driver/chromedriver-win64/chromedriver' // or set this for Windows if needed
     }
-
-        
-    
-
-
     stages {
        stage('Build') {
             steps {
