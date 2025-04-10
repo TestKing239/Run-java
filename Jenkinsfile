@@ -1,20 +1,27 @@
 pipeline {
     agent any
 
-  
     environment {
-        CHROME_DRIVER = 'Driver/Chrome Driver/chromedriver-win64/chromedriver' // or set this for Windows if needed
+        CHROME_DRIVER = 'Driver/Chrome Driver/chromedriver-win64/chromedriver.exe' // Use .exe on Windows
     }
+
     stages {
-           stage('Checkout') {
+
+        stage('Checkout') {
             steps {
                 git branch: 'main', url: 'https://github.com/TestKing239/Run-java.git'
             }
         }
 
+        stage('Build') {
+            steps {
+                bat 'mvn clean install'
+            }
+        }
+
         stage('Run Selenium Tests') {
             steps {
-                bat 'mvn clean test -Dheadless=false'  // or true if you prefer
+                bat 'mvn test -Dheadless=false' // Set true if you want to run without browser
             }
         }
     }
